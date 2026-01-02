@@ -408,9 +408,9 @@ function delyvax_create_order($order, $user, $process=false) {
             include_once 'includes/delyvax-api.php';
         }
 
-        //ignore local_pickup
-        $shipping_method = delyvax_get_order_shipping_method($order->get_id());
-        if($shipping_method == 'local_pickup') return;
+        // Ignore local_pickup, flat_rate, and dokan_vendor_shipping
+		$shipping_method = delyvax_get_order_shipping_method($order->get_id());
+		if (in_array($shipping_method, ['local_pickup', 'flat_rate', 'dokan_vendor_shipping'])) return;
 
         //skip virtual product
         if ( only_virtual_order_items( $order ) ) return; 
